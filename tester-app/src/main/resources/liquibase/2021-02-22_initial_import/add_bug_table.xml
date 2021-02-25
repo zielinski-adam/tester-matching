@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="azielinski" id="add_bug_table">
+        <createTable tableName="bug">
+            <column name="bug_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="device_id" type="INTEGER"/>
+            <column name="tester_id" type="INTEGER"/>
+        </createTable>
+
+        <addPrimaryKey tableName="bug" columnNames="bug_id"/>
+
+        <addForeignKeyConstraint baseColumnNames="device_id"
+                                 baseTableName="bug"
+                                 constraintName="device_id_fk"
+                                 referencedColumnNames="device_id"
+                                 referencedTableName="device"/>
+
+        <addForeignKeyConstraint baseColumnNames="tester_id"
+                                 baseTableName="bug"
+                                 constraintName="tester_id_fk"
+                                 referencedColumnNames="tester_id"
+                                 referencedTableName="tester"/>
+
+        <loadData tableName="bug" file="bugs.csv" relativeToChangelogFile="true">
+            <column name="BUG_ID" type="NUMERIC"/>
+            <column name="DEVICE_ID" type="NUMERIC"/>
+            <column name="TESTER_ID" type="NUMERIC"/>
+        </loadData>
+
+        <rollback>
+            <sql>
+                DROP TABLE bug;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

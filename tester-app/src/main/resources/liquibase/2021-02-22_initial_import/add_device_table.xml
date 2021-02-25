@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="azielinski" id="add_device_table">
+        <createTable tableName="device">
+            <column name="device_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR2(255)"/>
+        </createTable>
+
+        <addPrimaryKey tableName="device" columnNames="device_id"/>
+
+        <loadData tableName="device" file="devices.csv" relativeToChangelogFile="true">
+            <column name="DEVICE_ID" type="NUMERIC"/>
+            <column name="DESCRIPTION" type="STRING"/>
+        </loadData>
+
+        <rollback>
+            <sql>
+                DROP TABLE device;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

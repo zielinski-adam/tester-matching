@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-select placeholder="{{placeholder}}" [formControl]="parameters" [(value)]="selectedValues" (ngModelChange)="dataChanged()" multiple>
+    <mat-option *ngFor="let topping of inputParameters" [value]="topping">{{topping}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<p>
+  Choosen values: {{selectedValues | json}}
+</p>
